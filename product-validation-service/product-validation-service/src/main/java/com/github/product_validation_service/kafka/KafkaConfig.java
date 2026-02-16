@@ -1,4 +1,4 @@
-package com.github.order_service.config.kafka;
+package com.github.product_validation_service.kafka;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -32,11 +32,14 @@ public class KafkaConfig {
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
 
-    @Value("${spring.kafka.topic.start-saga}")
-    private String startSagaTopic;
+    @Value("${spring.kafka.topic.orchestrator}")
+    private String orchestratorTopic;
 
-    @Value("${spring.kafka.topic.notify-ending}")
-    private String notifyEndingTopic;
+    @Value("${spring.kafka.topic.product-validation-success}")
+    private String productValidationSuccessTopic;
+
+    @Value("${spring.kafka.topic.product-validation-fail}")
+    private String productValidationFailTopic;
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -82,12 +85,17 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic startSagaTopic() {
-        return buildTopic(startSagaTopic);
+    public NewTopic orchestratorTopic() {
+        return buildTopic(orchestratorTopic);
     }
 
     @Bean
-    public NewTopic notifyEndingTopic() {
-        return buildTopic(notifyEndingTopic);
+    public NewTopic productValidationSuccessTopic() {
+        return buildTopic(productValidationSuccessTopic);
+    }
+
+    @Bean
+    public NewTopic productValidationFailTopic() {
+        return buildTopic(productValidationFailTopic);
     }
 }

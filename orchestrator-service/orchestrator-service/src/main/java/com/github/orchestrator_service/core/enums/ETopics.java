@@ -1,10 +1,9 @@
-package com.github.orchestrator_service;
+package com.github.orchestrator_service.core.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
+
 public enum ETopics {
 
     START_SAGA("start-saga"),
@@ -19,5 +18,13 @@ public enum ETopics {
     INVENTORY_FAIL("inventory-fail"),
     NOTIFY_ENDING("notify-ending");
 
-    private String topic;
+    private final String topic;
+
+    ETopics(String topic) {
+        this.topic = topic;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
 }

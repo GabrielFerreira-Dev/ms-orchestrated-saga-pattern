@@ -1,5 +1,6 @@
-package com.github.order_service.config.kafka;
+package com.github.orchestrator_service.kafka;
 
+import com.github.orchestrator_service.core.enums.ETopics;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -15,6 +16,8 @@ import org.springframework.kafka.core.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.github.orchestrator_service.core.enums.ETopics.*;
+
 @EnableKafka
 @Configuration
 @RequiredArgsConstructor
@@ -22,7 +25,6 @@ public class KafkaConfig {
 
     private static final Integer PARTITION_COUNT = 1;
     private static final Integer REPLICA_COUNT = 1;
-
     @Value("${spring.kafka.bootstrap-servers}")
     private String boostrapServers;
 
@@ -31,12 +33,6 @@ public class KafkaConfig {
 
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
-
-    @Value("${spring.kafka.topic.start-saga}")
-    private String startSagaTopic;
-
-    @Value("${spring.kafka.topic.notify-ending}")
-    private String notifyEndingTopic;
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -73,6 +69,7 @@ public class KafkaConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
+
     private NewTopic buildTopic(String name) {
         return TopicBuilder
                 .name(name)
@@ -83,11 +80,49 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic startSagaTopic() {
-        return buildTopic(startSagaTopic);
+        return buildTopic(START_SAGA.getTopic());
     }
 
     @Bean
-    public NewTopic notifyEndingTopic() {
-        return buildTopic(notifyEndingTopic);
+    public NewTopic orchestratorTopic() {
+        return buildTopic(BASE_ORCHESTRATOR.getTopic());
     }
+
+    @Bean
+    public NewTopic finishSuccessTopic() {
+        return buildTopic(FINISH_SUCCESS.getTopic());
+    }
+    @Bean
+    public NewTopic finishFailTopic() {
+        return buildTopic(FINISH_FAIL.getTopic());
+    }
+    @Bean
+    public NewTopic productValidationSuccessTopic() {
+        return buildTopic(PRODUCT_VALIDATION_SUCCESS.getTopic());
+    }
+    @Bean
+    public NewTopic productValidationFailTopic() {
+        return buildTopic(PRODUCT_VALIDATION_FAIL.getTopic());
+    }
+    @Bean
+    public NewTopic paymentSuccessTopic() {
+        return buildTopic(PAYMENT_SUCCESS.getTopic());
+    }
+    @Bean
+    public NewTopic paymentFailTopic() {
+        return buildTopic(PAYMENT_FAIL.getTopic());
+    }
+    @Bean
+    public NewTopic inventorySuccessTopic() {
+        return buildTopic(INVENTORY_SUCCESS.getTopic());
+    }
+    @Bean
+    public NewTopic inventoryFailTopic() {
+        return buildTopic(INVENTORY_FAIL.getTopic());
+    }
+    @Bean
+    public NewTopic notifyEndingTopic() {
+        return buildTopic(NOTIFY_ENDING.getTopic());
+    }
+
 }
