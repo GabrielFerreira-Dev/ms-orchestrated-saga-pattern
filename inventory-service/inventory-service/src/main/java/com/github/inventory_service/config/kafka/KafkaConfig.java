@@ -1,4 +1,4 @@
-package com.github.inventory_service.kafka;
+package com.github.inventory_service.config.kafka;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
