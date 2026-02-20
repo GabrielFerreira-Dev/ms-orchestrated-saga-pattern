@@ -1,4 +1,4 @@
-package com.github.product_validation_service.kafka;
+package com.github.payment_service.config.kafka;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -35,11 +35,11 @@ public class KafkaConfig {
     @Value("${spring.kafka.topic.orchestrator}")
     private String orchestratorTopic;
 
-    @Value("${spring.kafka.topic.product-validation-success}")
-    private String productValidationSuccessTopic;
+    @Value("${spring.kafka.topic.payment-success}")
+    private String paymentSuccessTopic;
 
-    @Value("${spring.kafka.topic.product-validation-fail}")
-    private String productValidationFailTopic;
+    @Value("${spring.kafka.topic.payment-fail}")
+    private String paymentFailTopic;
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -90,12 +90,12 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic productValidationSuccessTopic() {
-        return buildTopic(productValidationSuccessTopic);
+    public NewTopic paymentSuccessTopic() {
+        return buildTopic(paymentSuccessTopic);
     }
 
     @Bean
-    public NewTopic productValidationFailTopic() {
-        return buildTopic(productValidationFailTopic);
+    public NewTopic paymentFailTopic() {
+        return buildTopic(paymentFailTopic);
     }
 }

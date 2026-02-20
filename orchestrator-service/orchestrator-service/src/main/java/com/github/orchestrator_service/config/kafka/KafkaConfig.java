@@ -1,6 +1,5 @@
-package com.github.orchestrator_service.kafka;
+package com.github.orchestrator_service.config.kafka;
 
-import com.github.orchestrator_service.core.enums.ETopics;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
