@@ -1,10 +1,12 @@
 package com.github.order_service.config.kafka;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,7 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class KafkaConfig {
 
     private static final Integer PARTITION_COUNT = 1;
@@ -37,6 +40,13 @@ public class KafkaConfig {
 
     @Value("${spring.kafka.topic.notify-ending}")
     private String notifyEndingTopic;
+
+    @Bean
+    public Object logKafkaConfig() {
+        log.info("Kafka bootstrap servers: {}", boostrapServers);
+        log.info("Kafka topics: start-saga={}, notify-ending={}", startSagaTopic, notifyEndingTopic);
+        return new Object();
+    }
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -62,8 +72,8 @@ public class KafkaConfig {
     private Map<String, Object> producerProps() {
         var props = new HashMap<String, Object>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapServers);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
         return props;
     }
