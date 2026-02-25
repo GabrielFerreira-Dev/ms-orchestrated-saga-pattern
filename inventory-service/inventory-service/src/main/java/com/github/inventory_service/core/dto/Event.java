@@ -16,7 +16,7 @@ import java.util.List;
 public class Event {
 
     private String id;
-    private String transacionId;
+    private String transactionId;
     private String orderId;
     private Order payload;
     private EEventSource source;
