@@ -5,7 +5,6 @@ import com.github.payment_service.core.dto.Event;
 import com.github.payment_service.core.dto.History;
 import com.github.payment_service.core.dto.OrderProducts;
 import com.github.payment_service.core.enums.EPaymentStatus;
-import com.github.payment_service.core.enums.ESagaStatus;
 import com.github.payment_service.core.model.Payment;
 import com.github.payment_service.core.producer.KafkaProducer;
 import com.github.payment_service.core.repository.PaymentRepository;
@@ -127,7 +126,7 @@ public class PaymentService {
         addHistory(event, "Fail to realize Payment: ".concat(message));
     }
 
-    public void realizerRefund(Event event) {
+    public void realizeRefund(Event event) {
         event.setStatus(FAIL);
         event.setSource(CURRENT_SOURCE);
         try {
