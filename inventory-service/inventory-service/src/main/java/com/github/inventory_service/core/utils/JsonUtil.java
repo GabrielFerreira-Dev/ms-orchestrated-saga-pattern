@@ -3,7 +3,7 @@ package com.github.inventory_service.core.utils;
 import com.github.inventory_service.core.dto.Event;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 @AllArgsConstructor
