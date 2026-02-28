@@ -1,6 +1,7 @@
 package com.github.inventory_service.core.dto;
 
 import com.github.inventory_service.core.enums.EEventSource;
+import com.github.inventory_service.core.enums.ESagaStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 public class History {
 
-    private EEventSource source;
-    private String status;
+    private String source;
+    private ESagaStatus status;
     private String message;
     private LocalDateTime createdAt;
 }
