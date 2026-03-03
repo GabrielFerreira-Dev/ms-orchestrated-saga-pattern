@@ -24,7 +24,7 @@ public class Event {
     private String transactionId;
     private String orderId;
     private Order payload;
-    private String source;
+    private EEventSource source;
     private ESagaStatus status;
     private List<History> eventHistory;
     private LocalDateTime createdAt;

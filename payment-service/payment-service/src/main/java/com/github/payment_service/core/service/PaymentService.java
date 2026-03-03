@@ -4,6 +4,7 @@ import com.github.payment_service.config.exception.ValidationException;
 import com.github.payment_service.core.dto.Event;
 import com.github.payment_service.core.dto.History;
 import com.github.payment_service.core.dto.OrderProducts;
+import com.github.payment_service.core.enums.EEventSource;
 import com.github.payment_service.core.enums.EPaymentStatus;
 import com.github.payment_service.core.model.Payment;
 import com.github.payment_service.core.producer.KafkaProducer;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static com.github.payment_service.core.enums.EEventSource.PAYMENT_SERVICE;
 import static com.github.payment_service.core.enums.EPaymentStatus.REFUND;
 import static com.github.payment_service.core.enums.ESagaStatus.*;
 import static com.github.payment_service.core.enums.ESagaStatus.SUCCESS;
@@ -24,7 +26,6 @@ import static com.github.payment_service.core.enums.ESagaStatus.SUCCESS;
 @AllArgsConstructor
 public class PaymentService {
 
-    private static final String CURRENT_SOURCE = "PAYMENT_VALIDATION_SERVICE";
     private static final Double REDUCE_SUM_VALUE = 0.0;
     private static final Double MIN_AMOUNT_VALUE = 0.1;
 
@@ -105,7 +106,7 @@ public class PaymentService {
 
     private void handleSuccess(Event event) {
         event.setStatus(SUCCESS);
-        event.setSource(CURRENT_SOURCE);
+        event.setSource(PAYMENT_SERVICE);
         addHistory(event, "Payment realized successfully!");
     }
 
@@ -122,13 +123,13 @@ public class PaymentService {
 
     private void handleFailCurrentNotExecuted(Event event, String message) {
         event.setStatus(ROLLBACK_PENDING);
-        event.setSource(CURRENT_SOURCE);
+        event.setSource(PAYMENT_SERVICE);
         addHistory(event, "Fail to realize Payment: ".concat(message));
     }
 
     public void realizeRefund(Event event) {
         event.setStatus(FAIL);
-        event.setSource(CURRENT_SOURCE);
+        event.setSource(PAYMENT_SERVICE);
         try {
             changePaymentStatusToRefund(event);
             addHistory(event, "Rollback executed for payment!");
